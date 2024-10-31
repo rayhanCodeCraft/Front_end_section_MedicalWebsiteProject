@@ -1,0 +1,463 @@
+<html>
+  <head>
+    <title>Healthtrip - Find Treatments</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header img {
+        height: 40px;
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(219, 204, 204, 0.082); /* Transparent background */
+        padding: 10px;
+       
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+      .navbar img {
+        height: 50px;
+      }
+      .navbar div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+      }
+      .navbar a {
+        text-decoration: none;
+        color: #8b0000;
+        margin: 0 10px;
+        font-size: 16px;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        display: block;
+        margin-top: 5px;
+        right: 0;
+        background: #8b0000;
+        transition: width 0.3s ease;
+        -webkit-transition: width 0.3s ease;
+      }
+      .navbar a:hover {
+        color: #000;
+      }
+      .navbar a:hover::after {
+        width: 100%;
+        left: 0;
+        background: #e79303;
+      }
+       .navbar .cta  {
+        background-color: rgb(86, 99, 240);
+            border: 2px solid #ff711e;
+            padding: 5px 5px;
+            border-radius: 5px;
+            color: #f9f9f9;
+            text-decoration: none;
+            font-weight: 100px;
+            margin-left: 20;
+      }  
+      .search-bar {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+      }
+      .search-bar input {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+      }
+      .search-bar button {
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-left: none;
+        background-color: #ff6f61;
+        color: white;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+      .search-bar button:hover {
+        background-color: #e65c50;
+      }
+      .main-content {
+        text-align: center;
+        padding: 50px 20px;
+      }
+      .main-content h1 span {
+        
+        color: #007bff;
+      }
+      .filters {
+        margin-bottom: 30px;
+      }
+      .filters button {
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .filters button:hover {
+        background-color: #f0f0f0;
+      }
+      .cards {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .card {
+        background-color: #e0f7fa;
+        border-radius: 10px;
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        margin-bottom: 20px;
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+      .card img {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin-bottom: 20px;
+      }
+      .card-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .card-text {
+        color: #666;
+        font-size: 14px;
+        margin: 5px 0;
+      }
+      .card .experience,
+      .card .surgeries {
+        font-weight: 500;
+        margin: 10px 0;
+      }
+      .card button {
+        background-color: #ff9800;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+      .card button:hover {
+        background-color: #e68900;
+      }
+      .footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 50px;
+      }
+      .footer a {
+        color: #ff6f61;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+      .footer a:hover {
+        text-decoration: underline;
+      }
+      .navbar .cta {
+        background-color: rgb(86, 99, 240);
+        border: 2px solid #ff711e;
+        padding: 5px 5px;
+        border-radius: 5px;
+        color: #f9f9f9;
+        text-decoration: none;
+        font-weight: 100px;
+        margin-left: 20;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <img alt="Smart Mover Medical Tourism Logo" height="50" src="image/logo.png" width="150"/>
+      <div>
+       <a href="#">
+        Treatments
+       </a>
+       <a href="#">
+        Wellness
+       </a>
+       <a href="#">
+        Doctors
+       </a>
+       <a href="#">
+        Hospitals
+       </a>
+       <a href="#">
+        Blogs
+       </a>
+       <a href="#">
+        Join as a Partner
+       </a>
+       <button class="cta" onclick="chatWithExpert()">
+        Chat with a health expert now
+      </button>
+      </div>
+     </div>
+      </div>
+      <br>
+      <br>
+      <br>
+    <section>
+      <div class="search-bar">
+        <input placeholder="Search treatments..." type="text" />
+        <button>Search</button>
+      </div>
+    </section>
+    <div class="main-content">
+      <h1>Find <span>Treatments?</span></h1>
+      
+      <div class="filters">
+          <button class="tab" onclick="scrollToSection('medical')">Medical</button>
+          <button class="tab" onclick="scrollToSection('aesthetic')">Aesthetic</button>
+          <button class="tab" onclick="scrollToSection('wellness')">Wellness</button>
+        
+      </div>
+      <div class="main-content">
+        <h1>Medical <span>Treatments</span></h1>
+        
+        <div class="cards">
+          <div class="card">
+            <img
+              alt="Bariatric Surgery"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/zRIf3zjxVOQAWK552psT5Nhud0xBXDM32TUCesmgeUiAKSQnA.jpg"
+              width="100"
+            />
+            <div class="card-title">Bariatric Surgery</div>
+            <div class="card-text">
+              90% Rated Value for Money
+              <br />
+              Packages Starting from $1500
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="Cardiac Sciences"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/s7GpcWvnl9ZABd1SRe3qyvipLtjrcAODyG1gDXHo0HcjiE0JA.jpg"
+              width="100"
+            />
+            <div class="card-title">Cardiac Sciences</div>
+            <div class="card-text">
+              92% Rated Value for Money
+              <br />
+              Packages Starting from $500
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="ENT"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/Bfbti6pMMtzafU3rVZERdwq1heGspn1P8FEVSbd7Hs1KKSQnA.jpg"
+              width="100"
+            />
+            <div class="card-title">ENT</div>
+            <div class="card-text">
+              92% Rated Value for Money
+              <br />
+              Packages Starting from $16,000
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="General &amp; Laparoscopic"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/rYQrIijQwQYhNpOJfphWJnQ8D1KYgkwZcFUy76rKRz5hiE0JA.jpg"
+              width="100"
+            />
+            <div class="card-title">General &amp; Laparoscopic</div>
+            <div class="card-text">
+              90% Rated Value for Money
+              <br />
+              Packages Starting from $1800
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main-content">
+        <h1>Aesthetic <span>Treatments</span></h1>
+        
+        <div class="cards">
+          <div class="card">
+            <img
+              alt="Bariatric Surgery"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/zRIf3zjxVOQAWK552psT5Nhud0xBXDM32TUCesmgeUiAKSQnA.jpg"
+              width="100"
+            />
+            <div class="card-title">Bariatric Surgery</div>
+            <div class="card-text">
+              90% Rated Value for Money
+              <br />
+              Packages Starting from $1500
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="Cardiac Sciences"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/s7GpcWvnl9ZABd1SRe3qyvipLtjrcAODyG1gDXHo0HcjiE0JA.jpg"
+              width="100"
+            />
+            <div class="card-title">Cardiac Sciences</div>
+            <div class="card-text">
+              92% Rated Value for Money
+              <br />
+              Packages Starting from $500
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="ENT"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/Bfbti6pMMtzafU3rVZERdwq1heGspn1P8FEVSbd7Hs1KKSQnA.jpg"
+              width="100"
+            />
+            <div class="card-title">ENT</div>
+            <div class="card-text">
+              92% Rated Value for Money
+              <br />
+              Packages Starting from $16,000
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="General &amp; Laparoscopic"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/rYQrIijQwQYhNpOJfphWJnQ8D1KYgkwZcFUy76rKRz5hiE0JA.jpg"
+              width="100"
+            />
+            <div class="card-title">General &amp; Laparoscopic</div>
+            <div class="card-text">
+              90% Rated Value for Money
+              <br />
+              Packages Starting from $1800
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <h1>Wellness <span>Treatments</span></h1>
+        
+        <div class="cards">
+          <div class="card">
+            <img
+              alt="Bariatric Surgery"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/zRIf3zjxVOQAWK552psT5Nhud0xBXDM32TUCesmgeUiAKSQnA.jpg"
+              width="100"
+            />
+            <div class="card-title">Bariatric Surgery</div>
+            <div class="card-text">
+              90% Rated Value for Money
+              <br />
+              Packages Starting from $1500
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="Cardiac Sciences"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/s7GpcWvnl9ZABd1SRe3qyvipLtjrcAODyG1gDXHo0HcjiE0JA.jpg"
+              width="100"
+            />
+            <div class="card-title">Cardiac Sciences</div>
+            <div class="card-text">
+              92% Rated Value for Money
+              <br />
+              Packages Starting from $500
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="ENT"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/Bfbti6pMMtzafU3rVZERdwq1heGspn1P8FEVSbd7Hs1KKSQnA.jpg"
+              width="100"
+            />
+            <div class="card-title">ENT</div>
+            <div class="card-text">
+              92% Rated Value for Money
+              <br />
+              Packages Starting from $16,000
+            </div>
+          </div>
+          <div class="card">
+            <img
+              alt="General &amp; Laparoscopic"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/rYQrIijQwQYhNpOJfphWJnQ8D1KYgkwZcFUy76rKRz5hiE0JA.jpg"
+              width="100"
+            />
+            <div class="card-title">General &amp; Laparoscopic</div>
+            <div class="card-text">
+              90% Rated Value for Money
+              <br />
+              Packages Starting from $1800
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>&copy; 2023 Your Company. All rights reserved.</p>
+      <p>
+        <a href="#"> Privacy Policy </a>
+        |
+        <a href="#"> Terms of Service </a>
+        |
+        <a href="#"> Contact Us </a>
+      </p>
+    </div>
+  </body>
+</html>
+
+
+
